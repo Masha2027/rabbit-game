@@ -2,6 +2,8 @@ class Rabbit {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.w = 60;
+    this.h = 90;
   }
   display() {
     //body
@@ -43,9 +45,8 @@ class Rabbit {
       this.x + 35,
       this.y + 45,
       this.x + 28,
-      this.y + 52
+      this.y + 52,
     );
-    ///
     strokeWeight(2);
   }
 }
@@ -61,4 +62,3 @@ const rabbit = new Rabbit(200, 300);
 function draw() {
   rabbit.display();
 }
-
