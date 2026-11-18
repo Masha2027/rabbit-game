@@ -1,4 +1,5 @@
-class Rabbit {
+
+export class Rabbit {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -45,20 +46,13 @@ class Rabbit {
       this.x + 35,
       this.y + 45,
       this.x + 28,
-      this.y + 52,
+      this.y + 52
     );
     strokeWeight(2);
   }
+
+  jump() {
+    this.y -= 20;
+  }
 }
 
-//background
-function setup() {
-  createCanvas(500, 800);
-  background("#00FFFF");
-}
-
-const rabbit = new Rabbit(200, 300);
-
-function draw() {
-  rabbit.display();
-}
