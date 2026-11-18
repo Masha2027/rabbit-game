@@ -1,5 +1,4 @@
-
-export class Rabbit {
+export default class Rabbit {
   constructor(x, y) {
     this.x = x;
     this.y = y;
@@ -46,13 +45,8 @@ export class Rabbit {
       this.x + 35,
       this.y + 45,
       this.x + 28,
-      this.y + 52
+      this.y + 52,
     );
     strokeWeight(2);
   }
-
-  jump() {
-    this.y -= 20;
-  }
 }
-
