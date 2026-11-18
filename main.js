@@ -7,7 +7,6 @@ function setup() {
 
 const rabbit = new Rabbit(200, 300);
 
-
 function keyPressed() {
   rabbit.jump();
 }
