@@ -1,3 +1,4 @@
+
 export class Rabbit {
   constructor(x, y) {
     this.x = x;
@@ -48,9 +49,5 @@ export class Rabbit {
       this.y + 52,
     );
     strokeWeight(2);
-  }
-
-  jump() {
-    this.y -= 20;
   }
 }

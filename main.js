@@ -1,4 +1,4 @@
-import { Character } from "./character.js";
+import { Rabbit } from "./character.js";
 //background
 function setup() {
   createCanvas(500, 800);
