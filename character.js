@@ -1,4 +1,3 @@
-
 export class Rabbit {
   constructor(x, y) {
     this.x = x;
@@ -7,31 +6,32 @@ export class Rabbit {
     this.h = 90;
   }
 
-jump(){
-  this.y -= 100;
-}
+  jump() {
+    this.y -= 100;
+  }
 
-fall(){
-  this.y += 5;
-}
+  fall() {
+    this.y += 5;
+  }
 
-moveLeft() {
-  this.x -= 5;
-}
+  moveLeft() {
+    this.x -= 5;
+  }
 
-moveRight() {
-  this.x += 5;
-}
+  moveRight() {
+    this.x += 5;
+  }
 
-isColliding(object){
-if (Math.abs(this.y + this.h - object.yPos) < 5 && 
-this.x + this.w >= object.xPos && 
-this.x <= object.xPos + object.width
-) {
-  return true;
-}
-return false;
-}
+  isColliding(object) {
+    if (
+      Math.abs(this.y + this.h - object.yPos) < 5 &&
+      this.x + this.w >= object.xPos &&
+      this.x <= object.xPos + object.width
+    ) {
+      return true;
+    }
+    return false;
+  }
 
   display() {
     //body
@@ -73,9 +73,8 @@ return false;
       this.x + 35,
       this.y + 45,
       this.x + 28,
-      this.y + 52
+      this.y + 52,
     );
     strokeWeight(2);
   }
 }
-
