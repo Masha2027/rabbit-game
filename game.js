@@ -24,9 +24,9 @@ class Rabbit {
 
   isColliding(object) {
     if (
-      Math.abs(this.y + this.h - object.yPos) < 5 &&
-      this.x + this.w >= object.xPos &&
-      this.x <= object.xPos + object.width
+      Math.abs(this.y + this.h - object.y) < 5 &&
+      this.x + this.w >= object.x &&
+      this.x <= object.x + object.w
     ) {
       return true;
     }
@@ -34,7 +34,7 @@ class Rabbit {
   }
 
   display() {
-    push(); // bewaar de stijl-instellingen, zodat ze de platforms niet beïnvloeden
+    push(); // saves the style we have
 
     //body
     fill("beige");
@@ -75,10 +75,10 @@ class Rabbit {
       this.x + 35,
       this.y + 45,
       this.x + 28,
-      this.y + 52
+      this.y + 52,
     );
 
-    pop(); // zet de stijl-instellingen terug
+    pop(); // puts the style settings back
   }
 }
 
@@ -113,19 +113,19 @@ class Platform {
 const rabbit = new Rabbit(200, 300);
 const platforms = []; // the list: all platforms will be displayed here
 
-// Functie that makes one platform and puts it in the list
+// Function that makes one platform and puts it in the list
 function createPlatform(x, y, range, moving) {
   const platform = new Platform(x, y, range, moving);
   platforms.push(platform);
   return platform;
 }
 
-// ÉÉN setup voor het hele spel
+// 1 setup for the whole game
 function setup() {
   createCanvas(500, 800);
 
   // Loop: creates 6 random platforms (only happens once). For loop because we know how many platforms we want
-  let y = height - 50; // het onderste platform
+  let y = height - 50; // the lowest platform
   for (let i = 0; i < 6; i++) {
     const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95
     const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range; // stays inside canvas
@@ -136,7 +136,7 @@ function setup() {
   }
 }
 
-// ÉÉN draw voor het hele spel
+// 1 draw for the whole game
 function draw() {
   background("#00FFFF");
 
