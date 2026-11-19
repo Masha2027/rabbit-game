@@ -49,7 +49,7 @@ function setup() {
   createCanvas(400, 400);
 
   // Loop: creates 4 random platforms (only happens once). For loop because we know how many platforms we want
-  let y= 350;
+  let y = 350;
   for (let i = 0; i < 3; i++) {
     const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95. Math.floor(Math.random() * (max - min + 1)) + min
     const x = Math.floor(Math.random() * (400 - 100 - 2 * range)) + range; // stays inside canvas

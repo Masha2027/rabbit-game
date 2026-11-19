@@ -1,32 +1,5 @@
 import { Rabbit } from "./character.js";
 
-const rabbit = new Rabbit(200, 300);
-
-//background
-function setup() {
-  createCanvas(500, 800);
-}
-
-function draw() {
-   background("#00FFFF");
-
-   rabbit.fall();
-
-   if (keyIsDown(LEFT_ARROW)) {
-    rabbit.moveLeft();
-  }
-  if (keyIsDown(RIGHT_ARROW)) {
-    rabbit.moveRight();
-  }
-
-  // temporary: bounce on the ground until the platforms exist
-  if (rabbit.y + rabbit.h >= height) {
-    rabbit.jump();
-  }
-
-  rabbit.display();
-}
-
 
 // Define what states the game has
 const gameState = {
@@ -75,4 +48,20 @@ function mouseClicked(){
 		startButton.isHovered()){
 		currentGameState = gameState.active;
 	}
+}
+
+
+//background
+function setup() {
+  createCanvas(500, 800);
+  background("#00FFFF");
+}
+
+ const rabbit = new Rabbit(200, 300);
+
+function keyPressed() {
+  rabbit.jump();
+}
+function draw () {
+  rabbit.display();
 }
