@@ -1,65 +1,3 @@
-const platforms = []; // the list: all platforms will be displayed here
-
-function setup() {
-  createCanvas(400, 400);
-
-  // Loop: creates 4 random platforms (only happens once). For loop because we know how many platforms we want
-  let y = 350;
-  for (let i = 0; i < 3; i++) {
-    const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95. Math.floor(Math.random() * (max - min + 1)) + min
-    const x = Math.floor(Math.random() * (400 - 100 - 2 * range)) + range; // stays inside canvas
-    const moving = i % 2 === 0;
-
-    createPlatform(x, y, range, moving);
-    y -= Math.floor(Math.random() * 31) + 100; // distance between platforms, is 70
-  }
-}
-
-// Functie that makes one platform and puts it in the list
-function createPlatform(x, y, range, moving) {
-  const platform = new Platform(x, y, range, moving);
-  platforms.push(platform);
-  return platform;
-}
-
-class Platform {
-  constructor(x, y, range, moving) {
-    this.x = x;
-    this.y = y;
-    this.range = range;
-    this.w = 100;
-    this.h = 30;
-    this.moving = moving;
-    this.speed = moving ? 2 : 0;
-    this.maxX = x + this.range;
-    this.minX = x - this.range;
-  }
-
-  drawPlatform() {
-    fill(this.moving ? "pink" : "lightblue");
-    rect(this.x, this.y, this.w, this.h);
-  }
-
-  // make platform move
-  movePlatform() {
-    this.x += this.speed;
-
-    if (this.x > this.maxX || this.x < this.minX) {
-      this.speed = -this.speed;
-    }
-  }
-}
-
-function draw() {
-  background(220);
-
-  // draws and moves all platforms
-  for (const platform of platforms) {
-    platform.drawPlatform();
-    platform.movePlatform();
-  }
-}
-
 class Rabbit {
   constructor(x, y) {
     this.x = x;
@@ -96,6 +34,8 @@ class Rabbit {
   }
 
   display() {
+    push(); // bewaar de stijl-instellingen, zodat ze de platforms niet beïnvloeden
+
     //body
     fill("beige");
     stroke(2);
@@ -137,19 +77,76 @@ class Rabbit {
       this.x + 28,
       this.y + 52
     );
-    strokeWeight(2);
+
+    pop(); // zet de stijl-instellingen terug
+  }
+}
+
+class Platform {
+  constructor(x, y, range, moving) {
+    this.x = x;
+    this.y = y;
+    this.range = range;
+    this.w = 100;
+    this.h = 30;
+    this.moving = moving;
+    this.speed = moving ? 2 : 0;
+    this.maxX = x + this.range;
+    this.minX = x - this.range;
+  }
+
+  drawPlatform() {
+    fill(this.moving ? "pink" : "lightblue");
+    rect(this.x, this.y, this.w, this.h);
+  }
+
+  // make platform move
+  movePlatform() {
+    this.x += this.speed;
+
+    if (this.x > this.maxX || this.x < this.minX) {
+      this.speed = -this.speed;
+    }
   }
 }
 
 const rabbit = new Rabbit(200, 300);
+const platforms = []; // the list: all platforms will be displayed here
 
-function setup() {
-  createCanvas(500, 800);
+// Functie that makes one platform and puts it in the list
+function createPlatform(x, y, range, moving) {
+  const platform = new Platform(x, y, range, moving);
+  platforms.push(platform);
+  return platform;
 }
 
+// ÉÉN setup voor het hele spel
+function setup() {
+  createCanvas(500, 800);
+
+  // Loop: creates 6 random platforms (only happens once). For loop because we know how many platforms we want
+  let y = height - 50; // het onderste platform
+  for (let i = 0; i < 6; i++) {
+    const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95
+    const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range; // stays inside canvas
+    const moving = i % 2 === 0;
+
+    createPlatform(x, y, range, moving);
+    y -= Math.floor(Math.random() * 31) + 100; // distance between platforms: 100 to 130
+  }
+}
+
+// ÉÉN draw voor het hele spel
 function draw() {
   background("#00FFFF");
 
+  // draws and moves all platforms
+  for (const platform of platforms) {
+    platform.drawPlatform();
+    platform.movePlatform();
+  }
+
+  // rabbit
   rabbit.fall();
 
   if (keyIsDown(LEFT_ARROW)) {
