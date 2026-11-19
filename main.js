@@ -5,11 +5,11 @@ function setup() {
   background("#00FFFF");
 }
 
-const rabbit = new Rabbit(200, 300);
+ const rabbit = new Rabbit(200, 300);
 
 function keyPressed() {
-  rabbit.jump();
-}
+rabbit.jump();
+ }
 function draw () {
-  rabbit.display();
-}
+rabbit.display();
+ }
