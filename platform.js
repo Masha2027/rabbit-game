@@ -42,7 +42,7 @@
 //   thirdPlatform.drawPlatform();
 //   thirdPlatform.movePlatform();
 // }
-export default class Platform {
+export class Platform {
 const platforms = []; // the list: all platforms will be displayed here
 
 function setup() {

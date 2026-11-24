@@ -75,7 +75,7 @@ class Rabbit {
       this.x + 35,
       this.y + 45,
       this.x + 28,
-      this.y + 52,
+      this.y + 52
     );
 
     pop(); // puts the style settings back

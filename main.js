@@ -1,12 +1,11 @@
 import { Rabbit } from "./character.js";
 
-
 // Define what states the game has
 const gameState = {
-    win: "gameWon",
-	lose: "gameLose",
-    intro: "gameIntro",
-    active: "gameActive",
+  win: "gameWon",
+  lose: "gameLose",
+  intro: "gameIntro",
+  active: "gameActive",
 };
 
 //  Track the current gamestate, intro by default
@@ -22,34 +21,31 @@ const testPlatform = new Platform(100, 100, 100, 50);
 const startButton = new Button(100, 100, 200, 100);
 
 function draw() {
-    background("grey");
+  background("grey");
 
-    if (currentGameState === gameState.intro) {
-		startButton.draw();
-        
-    } else if (currentGameState === gameState.active) {
-        gameCharacter.draw();
-        testPlatform.draw();
+  if (currentGameState === gameState.intro) {
+    startButton.draw();
+  } else if (currentGameState === gameState.active) {
+    gameCharacter.draw();
+    testPlatform.draw();
 
-        if (gameCharacter.yPos + gameCharacter.height < 500) {
-            gameCharacter.fall();
-        }
-    } else {
-        rect(50, 50, 50, 50);
+    if (gameCharacter.yPos + gameCharacter.height < 500) {
+      gameCharacter.fall();
     }
+  } else {
+    rect(50, 50, 50, 50);
+  }
 }
 
 function keyPressed() {
-    gameCharacter.jump();
+  gameCharacter.jump();
 }
 
-function mouseClicked(){
-	if(currentGameState === gameState.intro &&
-		startButton.isHovered()){
-		currentGameState = gameState.active;
-	}
+function mouseClicked() {
+  if (currentGameState === gameState.intro && startButton.isHovered()) {
+    currentGameState = gameState.active;
+  }
 }
-
 
 //background
 function setup() {
@@ -72,11 +68,11 @@ function draw() {
   background("#00FFFF");
 }
 
- const rabbit = new Rabbit(200, 300);
+const rabbit = new Rabbit(200, 300);
 
 function keyPressed() {
   rabbit.jump();
 }
-function draw () {
+function draw() {
   rabbit.display();
 }
