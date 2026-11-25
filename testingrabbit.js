@@ -29,4 +29,3 @@ function draw() {
   }
   rabbit.display();
 }
-
