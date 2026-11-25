@@ -42,32 +42,8 @@
 //   thirdPlatform.drawPlatform();
 //   thirdPlatform.movePlatform();
 // }
+
 export class Platform {
-const platforms = []; // the list: all platforms will be displayed here
-
-function setup() {
-  createCanvas(400, 400);
-
-  // Loop: creates 4 random platforms (only happens once). For loop because we know how many platforms we want
-  let y = 350;
-  for (let i = 0; i < 3; i++) {
-    const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95. Math.floor(Math.random() * (max - min + 1)) + min
-    const x = Math.floor(Math.random() * (400 - 100 - 2 * range)) + range; // stays inside canvas
-    const moving = i % 2 === 0;
-
-    createPlatform(x, y, range, moving);
-    y -= Math.floor(Math.random() * 31) + 100; // distance between platforms, is 70
-  }
-}
-
-// Functie that makes one platform and puts it in the list
-function createPlatform(x, y, range, moving) {
-  const platform = new Platform(x, y, range, moving);
-  platforms.push(platform);
-  return platform;
-}
-
-class Platform {
   constructor(x, y, range, moving) {
     this.x = x;
     this.y = y;
@@ -80,7 +56,7 @@ class Platform {
     this.minX = x - this.range;
   }
 
-  drawPlatform() {
+  display() {
     fill(this.moving ? "pink" : "lightblue");
     rect(this.x, this.y, this.w, this.h);
   }
@@ -100,7 +76,31 @@ function draw() {
 
   // draws and moves all platforms
   for (const platform of platforms) {
-    platform.drawPlatform();
+    platform.display();
     platform.movePlatform();
   }
+}
+
+export const platforms = []; // the list: all platforms will be displayed here
+
+function setup() {
+  createCanvas(400, 400);
+
+  // Loop: creates 3 random platforms (only happens once). For loop because we know how many platforms we want
+  let y = 350;
+  for (let i = 0; i < 3; i++) {
+    const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95. Math.floor(Math.random() * (max - min + 1)) + min
+    const x = Math.floor(Math.random() * (400 - 100 - 2 * range)) + range; // stays inside canvas
+    const moving = i % 2 === 0;
+
+    createPlatform(x, y, range, moving);
+    y -= Math.floor(Math.random() * 31) + 100; // distance between platforms, is 70
+  }
+}
+
+// Functie that makes one platform and puts it in the list
+function createPlatform(x, y, range, moving) {
+  const platform = new Platform(x, y, range, moving);
+  platforms.push(platform);
+  return platform;
 }

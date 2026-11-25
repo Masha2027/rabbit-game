@@ -1,10 +1,9 @@
 import { Rabbit } from "./character.js";
 
-let rabbit;
+let rabbit = new Rabbit(200, 300);
 
 function setup() {
   createCanvas(500, 800);
-  rabbit = new Rabbit(200, 300);
 }
 
 function keyPressed() {
