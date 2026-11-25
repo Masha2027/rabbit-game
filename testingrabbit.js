@@ -1,6 +1,6 @@
 import { Rabbit } from "./character.js";
 
-let rabbit = new Rabbit(200, 300);
+let rabbit;
 
 function setup() {
   createCanvas(500, 800);
@@ -28,3 +28,4 @@ function draw() {
   }
   rabbit.display();
 }
+
