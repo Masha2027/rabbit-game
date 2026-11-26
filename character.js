@@ -1,17 +1,20 @@
-export class Rabbit {
+class Rabbit {
   constructor(x, y) {
     this.x = x;
     this.y = y;
     this.w = 60;
     this.h = 90;
+    this.velocityY = 0; //this is how fast the rabbit moves up and down now
+    this.gravity = 0.4; //this is how strong the rabbit gets pulled down
   }
 
   jump() {
-    this.y -= 100;
+    this.velocityY = -12; //negative number means upwards
   }
 
   fall() {
-    this.y += 5;
+    this.velocityY += this.gravity;
+    this.y += this.velocityY;
   }
 
   moveLeft() {
@@ -22,19 +25,20 @@ export class Rabbit {
     this.x += 5;
   }
 
-  isColliding(object) {
-    if (
-      Math.abs(this.y + this.h - object.yPos) < 5 &&
-      this.x + this.w >= object.x &&
-      this.x <= object.x + object.w
-    ) {
-      return true;
-    }
-    return false;
+  isLandingOn(platform, previousBottom) {
+    const bottom = this.y + this.h;
+    return (
+      this.velocityY > 0 && // only while falling
+      previousBottom <= platform.y && // feet were above the platform
+      bottom >= platform.y && // feet are now at or below its top
+      this.x + this.w >= platform.x && // horizontally overlapping
+      this.x <= platform.x + platform.w
+    );
   }
 
   display() {
-    push();
+    push(); // saves the style we have
+
     //body
     fill("beige");
     stroke(2);
@@ -76,6 +80,7 @@ export class Rabbit {
       this.x + 28,
       this.y + 52,
     );
-    pop();
+
+    pop(); // puts the style settings back
   }
 }

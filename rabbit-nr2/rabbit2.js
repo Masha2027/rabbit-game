@@ -150,6 +150,7 @@ function draw() {
   }
 
   // rabbit
+  const previousBottom = rabbit.y + rabbit.h; // where the feet were before moving
   rabbit.fall();
 
   if (keyIsDown(LEFT_ARROW)) {
@@ -159,8 +160,17 @@ function draw() {
     rabbit.moveRight();
   }
 
-  // temporary: bounce on the ground until the platforms exist
+  // land on a platform -> bounce
+  for (const platform of platforms) {
+    if (rabbit.isLandingOn(platform, previousBottom)) {
+      rabbit.y = platform.y - rabbit.h; // put the feet exactly on top
+      rabbit.jump();
+    }
+  }
+
+  // temporary: bounce on the ground
   if (rabbit.y + rabbit.h >= height) {
+    rabbit.y = height - rabbit.h;
     rabbit.jump();
   }
 
