@@ -23,7 +23,7 @@ import { Platform, platforms } from "./platform.js";
 // const startButton = new Button(100, 100, 200, 100);
 const rabbit = new Rabbit(200, 300);
 const platform = new Platform(100, 300, 100);
-const platforms = []; // the list: all platforms will be displayed here
+// const platforms = []; // the list: all platforms will be displayed here
 
 //background
 function setup() {

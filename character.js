@@ -25,8 +25,8 @@ export class Rabbit {
   isColliding(object) {
     if (
       Math.abs(this.y + this.h - object.yPos) < 5 &&
-      this.x + this.w >= object.xPos &&
-      this.x <= object.xPos + object.width
+      this.x + this.w >= object.x &&
+      this.x <= object.x + object.w
     ) {
       return true;
     }
@@ -34,6 +34,7 @@ export class Rabbit {
   }
 
   display() {
+    push();
     //body
     fill("beige");
     stroke(2);
@@ -75,6 +76,6 @@ export class Rabbit {
       this.x + 28,
       this.y + 52,
     );
-    strokeWeight(2);
+    pop();
   }
 }
