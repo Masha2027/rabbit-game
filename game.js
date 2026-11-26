@@ -1,5 +1,5 @@
 import { Rabbit } from "./character.js";
-import { Platform, platforms } from "./platform.js";
+import { Platform } from "./platform.js";
 
 const rabbit = new Rabbit(200, 300);
 const platforms = []; // the list: all platforms will be displayed here

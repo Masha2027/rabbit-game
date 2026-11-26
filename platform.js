@@ -81,7 +81,7 @@ export class Platform {
 //   }
 // }
 
-export const platforms = []; // the list: all platforms will be displayed here
+//export const platforms = []; // the list: all platforms will be displayed here
 
 // function setup() {
 //   createCanvas(400, 400);
