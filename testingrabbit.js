@@ -52,6 +52,3 @@ function draw() {
   rabbit.fall();
 }
 
-function keyPressed() {
-  rabbit.jump();
-}
