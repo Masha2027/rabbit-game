@@ -7,8 +7,8 @@ let gameOver = false;
 const scrollLine = 300;
 
 // Function that makes one platform and puts it in the list
-function createPlatform(x, y, range, moving) {
-  const platform = new Platform(x, y, range, moving);
+function createPlatform(x, y, range, moving, breaking = false) {
+  const platform = new Platform(x, y, range, moving, breaking);
   platforms.push(platform);
   return platform;
 }
@@ -21,7 +21,8 @@ function createRandomPlatform(y) {
   const range = Math.floor(Math.random() * 51) + 54;
   const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range;
   const moving = Math.random() < 0.5; // 5 from the 10 platforms are moving platforms
-  createPlatform(x, y, range, moving);
+  const breaking = !moving && Math.random() < 0.3;
+  createPlatform(x, y, range, moving, breaking);
 }
 
 function fillPlatforms() {
@@ -57,13 +58,14 @@ function findNextPlatform() {
 }
 
 function updateGame() {
-  for (const platform of platforms) {
-    platform.movePlatform();
-  }
-
   // rabbit
   const previousBottom = rabbit.y + rabbit.h; // where the feet were before moving
   rabbit.fall();
+
+  // Move the platforms
+  for (const platform of platforms) {
+    platform.movePlatform();
+  }
 
   if (keyIsDown(LEFT_ARROW)) {
     rabbit.moveLeft();
@@ -73,9 +75,16 @@ function updateGame() {
   }
 
   for (const platform of platforms) {
+    if (platform.broken) continue;
+
     if (rabbit.isLandingOn(platform, previousBottom)) {
-      rabbit.y = platform.y - rabbit.h; // put the feet exactly on top
+      rabbit.y = platform.y - rabbit.h;
       rabbit.jump();
+
+      if (platform.breaking) {
+        platform.broken = true;
+      }
+
       for (const other of platforms) {
         if (other.y >= platform.y) {
           other.reached = true;
@@ -155,4 +164,4 @@ function keyPressed() {
     resetGame();
   }
 }
-
+ 

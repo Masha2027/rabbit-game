@@ -44,7 +44,7 @@
 // }
 
 export class Platform {
-  constructor(x, y, range, moving) {
+  constructor(x, y, range, moving, breaking = false) {
     this.x = x;
     this.y = y;
     this.range = range;
@@ -54,15 +54,29 @@ export class Platform {
     this.speed = moving ? 2 : 0;
     this.maxX = x + this.range;
     this.minX = x - this.range;
+
+    this.breaking = breaking;
+    this.broken = false;
+    this.fallSpeed = 0;
   }
 
   drawPlatform() {
-    fill(this.moving ? "pink" : "lightblue");
+    if (this.breaking) {
+      fill(this.broken ? "#FFFD74" : "red");
+    } else {
+      fill(this.moving ? "pink" : "lightblue");
+    }
     rect(this.x, this.y, this.w, this.h);
   }
 
   // make platform move
   movePlatform() {
+    if (this.broken) {
+      this.fallSpeed += 0.5;
+      this.y += this.fallSpeed;
+      return;
+    }
+
     this.x += this.speed;
 
     if (this.x > this.maxX || this.x < this.minX) {
