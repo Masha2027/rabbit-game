@@ -18,7 +18,7 @@ class Rabbit {
   }
 
   moveLeft() {
-    this.x -= 5;
+    this.x -= 5; //what does this influence?
   }
 
   moveRight() {
