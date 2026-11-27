@@ -2,7 +2,10 @@ import { Rabbit } from "./character.js";
 import { Platform } from "./platform.js";
 
 const rabbit = new Rabbit(200, 300);
-const platforms = []; // the list: all platforms will be displayed here
+let platforms = []; // the list: all platforms will be displayed here
+let gameOver = false;
+
+const scrollLine = 300;
 
 // Function that makes one platform and puts it in the list
 function createPlatform(x, y, range, moving) {
@@ -11,33 +14,50 @@ function createPlatform(x, y, range, moving) {
   return platform;
 }
 
-// 1 setup for the whole game
-function setup() {
-  createCanvas(500, 800);
+function randomGap() {
+  return Math.floor(Math.random() * 31) + 100;
+}
 
-  // Loop: creates 6 random platforms (only happens once). For loop because we know how many platforms we want
-  let y = height - 50; // the lowest platform
-  for (let i = 0; i < 6; i++) {
-    const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95
-    const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range; // stays inside canvas
-    const moving = i % 2 === 0;
+function createRandomPlatform(y) {
+  const range = Math.floor(Math.random() * 51) + 54;
+  const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range;
+  const moving = Math.random() < 0.8; // 4 from the 10 platforms are moving platforms
+  createPlatform(x, y, range, moving);
+}
 
-    createPlatform(x, y, range, moving);
-    y -= Math.floor(Math.random() * 31) + 100; // distance between platforms: 100 to 130
+function fillPlatforms() {
+  let top = platforms[platforms.length - 1].y; //?
+  while (top > -100) {
+    top -= randomGap();
+    createRandomPlatform(top);
   }
 }
 
-// 1 draw for the whole game
-function draw() {
-  background("#00FFFF");
+function resetGame() {
+  platforms = [];
+  gameOver = false;
 
-  // draws and moves all platforms
+  rabbit.x = 220;
+  rabbit.y = height - 140;
+  rabbit.velocityY = 0;
+  rabbit.jump();
+
+  createPlatform(rabbit.x - 20, height - 50, 0, false);
+  fillPlatforms();
+}
+
+// 1 setup for the whole game
+function setup() {
+  createCanvas(500, 800);
+  resetGame();
+}
+
+function updateGame() {
   for (const platform of platforms) {
-    platform.drawPlatform();
     platform.movePlatform();
   }
 
- // rabbit
+  // rabbit
   const previousBottom = rabbit.y + rabbit.h; // where the feet were before moving
   rabbit.fall();
 
@@ -48,20 +68,107 @@ function draw() {
     rabbit.moveRight();
   }
 
-  // land on a platform -> bounce
   for (const platform of platforms) {
     if (rabbit.isLandingOn(platform, previousBottom)) {
       rabbit.y = platform.y - rabbit.h; // put the feet exactly on top
       rabbit.jump();
+      break;
     }
   }
 
-  // temporary: bounce on the ground
-  if (rabbit.y + rabbit.h >= height) {
-    rabbit.y = height - rabbit.h;
-    rabbit.jump();
+  //Scrolling
+  if (rabbit.y < scrollLine) {
+    const scrollAmount = scrollLine - rabbit.y;
+    rabbit.y = scrollLine;
+
+    for (const platform of platforms) {
+      platform.y += scrollAmount;
+    }
   }
 
-  rabbit.display();
+  platforms = platforms.filter((platform) => platform.y < height + 50);
+
+  fillPlatforms();
+
+  if (rabbit.y > height) {
+    gameOver = true;
+  }
 }
 
+//   // Loop: creates 6 random platforms (only happens once). For loop because we know how many platforms we want
+//   let y = height - 50; // the lowest platform
+//   for (let i = 0; i < 6; i++) {
+//     const range = Math.floor(Math.random() * 51) + 45; // between 45 en 95
+//     const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range; // stays inside canvas
+//     const moving = i % 2 === 0;
+
+//     createPlatform(x, y, range, moving);
+//     y -= Math.floor(Math.random() * 31) + 100; // distance between platforms: 100 to 130
+//   }
+// }
+
+// 1 draw for the whole game
+function draw() {
+  background("#00FFFF");
+
+  if (!gameOver) {
+    updateGame();
+  }
+
+  for (const platform of platforms) {
+    platform.drawPlatform();
+  }
+  rabbit.display();
+
+  if (gameOver) {
+    push();
+    fill(0, 0, 0, 150);
+    rect(0, 0, width, height);
+    fill("Pink");
+    textAlign(CENTER, CENTER);
+    textSize(50);
+    text("Your Rabbit is dead", width / 2, heigth / 2 - 20);
+    textSize(22);
+    text("Press SPACE to safe your Rabbit", width / 2, heigth / 2 + 30);
+    pop();
+  }
+}
+
+function keyPressed() {
+  if (gameOver && key === " ") {
+    resetGame();
+  }
+}
+// // draws and moves all platforms
+// for (const platform of platforms) {
+//   platform.drawPlatform();
+//   platform.movePlatform();
+// }
+
+// // rabbit
+// const previousBottom = rabbit.y + rabbit.h; // where the feet were before moving
+// rabbit.fall();
+
+// if (keyIsDown(LEFT_ARROW)) {
+//   rabbit.moveLeft();
+// }
+// if (keyIsDown(RIGHT_ARROW)) {
+//   rabbit.moveRight();
+// }
+
+// // land on a platform -> bounce
+// for (const platform of platforms) {
+//   if (rabbit.isLandingOn(platform, previousBottom)) {
+//     rabbit.y = platform.y - rabbit.h; // put the feet exactly on top
+//     rabbit.jump();
+//   }
+// }
+
+//   // temporary: bounce on the ground
+//   if (rabbit.y + rabbit.h >= height) {
+//     rabbit.y = height - rabbit.h;
+//     rabbit.jump();
+//   }
+
+//   rabbit.display();
+// }
