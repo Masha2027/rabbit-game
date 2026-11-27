@@ -21,7 +21,7 @@ function randomGap() {
 function createRandomPlatform(y) {
   const range = Math.floor(Math.random() * 51) + 54;
   const x = Math.floor(Math.random() * (width - 100 - 2 * range)) + range;
-  const moving = Math.random() < 0.8; // 4 from the 10 platforms are moving platforms
+  const moving = Math.random() < 0.5; // 5 from the 10 platforms are moving platforms
   createPlatform(x, y, range, moving);
 }
 
@@ -91,8 +91,26 @@ function updateGame() {
   fillPlatforms();
 
   if (rabbit.y > height) {
-    gameOver = true;
+    loseGame();
   }
+}
+function loseGame() {
+  gameOver = true;
+}
+
+function drawLoseScreen() {
+  push();
+  noStroke();
+  fill(0, 0, 0, 170);
+  rect(0, 0, width, height);
+  textAlign(CENTER, CENTER);
+  fill("#e75dc9");
+  textSize(46);
+  text("Your Rabbit died", width / 2, height / 2 - 50);
+
+  textSize(24);
+  text("Press SPACE to save your Rabbit", width / 2, height / 2 + 60);
+  pop();
 }
 
 //   // Loop: creates 6 random platforms (only happens once). For loop because we know how many platforms we want
@@ -121,16 +139,7 @@ function draw() {
   rabbit.display();
 
   if (gameOver) {
-    push();
-    fill(0, 0, 0, 150);
-    rect(0, 0, width, height);
-    fill("Pink");
-    textAlign(CENTER, CENTER);
-    textSize(50);
-    text("Your Rabbit is dead", width / 2, heigth / 2 - 20);
-    textSize(22);
-    text("Press SPACE to safe your Rabbit", width / 2, heigth / 2 + 30);
-    pop();
+    drawLoseScreen();
   }
 }
 
