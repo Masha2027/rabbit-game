@@ -4,7 +4,6 @@ import { Platform } from "./platform.js";
 const rabbit = new Rabbit(200, 300);
 let platforms = []; // the list: all platforms will be displayed here
 let gameOver = false;
-
 const scrollLine = 300;
 
 // Function that makes one platform and puts it in the list
@@ -42,7 +41,8 @@ function resetGame() {
   rabbit.velocityY = 0;
   rabbit.jump();
 
-  createPlatform(rabbit.x - 20, height - 50, 0, false);
+  const startPlatform = createPlatform(rabbit.x - 20, height - 50, 0, false);
+  startPlatform.reached = true;
   fillPlatforms();
 }
 
@@ -50,6 +50,10 @@ function resetGame() {
 function setup() {
   createCanvas(500, 800);
   resetGame();
+}
+
+function findNextPlatform() {
+  return platforms.find((platform) => !platform.reached);
 }
 
 function updateGame() {
@@ -72,6 +76,11 @@ function updateGame() {
     if (rabbit.isLandingOn(platform, previousBottom)) {
       rabbit.y = platform.y - rabbit.h; // put the feet exactly on top
       rabbit.jump();
+      for (const other of platforms) {
+        if (other.y >= platform.y) {
+          other.reached = true;
+        }
+      }
       break;
     }
   }
@@ -90,10 +99,20 @@ function updateGame() {
 
   fillPlatforms();
 
+  const nextPlatform = findNextPlatform();
+  if (
+    nextPlatform &&
+    rabbit.velocityY > 0 &&
+    rabbit.y + rabbit.h > nextPlatform.y + nextPlatform.h
+  ) {
+    loseGame();
+  }
+
   if (rabbit.y > height) {
     loseGame();
   }
 }
+
 function loseGame() {
   gameOver = true;
 }
